@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/imgs/icoon.png" />
+    <title>ContactHub - Smart Contact Manager</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/style/style.css" >
+  </head>
+  <body>
+    <header class="main-head">
+      <div>
+        <div class="main-parent">
+          <div class="main-icon">
+            <i class="fa-solid fa-address-book text-white"></i>
+          </div>
+          <di class="text-main-icon">
+            <h1>Contact<span>Hub</span></h1>
+            <p class="d-none d-md-block">Smart Contact Manager</p>
+          </di>
+        </div>
+        <div class="info">
+          <button
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+            id="btnAdd"
+          >
+            <i class="fa-solid fa-plus"></i> Add
+            <span class="d-none d-md-inline-block">Contact</span>
+          </button>
+
+          <div class="d-none d-md-flex"><i class="fa-solid fa-bell"></i></div>
+          <div class="d-none d-md-flex"><i class="fa-solid fa-gear"></i></div>
+          <figure>
+            <img src="/imgs/avatar-4 (1).jpg" alt="Anonymous Person Photo" />
+          </figure>
+        </div>
+      </div>
+    </header>
+    <main>
+      <section class="about-contact">
+        <div class="row g-2 g-md-3">
+          <div class="col-6 col-md-4">
+            <div class="inner">
+              <div>
+                <div class="item item1">
+                  <div class="icon"><i class="fa-solid fa-users"></i></div>
+                  <div>
+                    <span class="text">TOTAL</span>
+                    <span id="totalNum">0</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-4">
+            <div class="inner">
+              <div>
+                <div class="item item2">
+                  <div class="icon"><i class="fa-solid fa-star"></i></div>
+                  <div>
+                    <span class="text">FAVORITES</span>
+                    <span id="favNum">0</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-4">
+            <div class="inner">
+              <div>
+                <div class="item item3">
+                  <div class="icon">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                  </div>
+                  <div>
+                    <span class="text">EMERGENCY</span>
+                    <span id="emergNum">0</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="position-relative">
+        <div class="title">
+          <h2>All Contacts</h2>
+          <p id="contactCount">Manage and organize your 0 contacts</p>
+        </div>
+        <div class="search-icon">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <input
+          oninput="displayContact()"
+          class="form-control"
+          placeholder="Search by name, phone, or email..."
+          type="search"
+          name=""
+          class="d-none d-md-block"
+          id="search"
+        />
+      </section>
+      <section>
+        <div class="row" id="rowData"></div>
+      </section>
+      <section class="d-flex justify-content-center align-items-center">
+        <div class="empty-state" id="contactEmptyState">
+          <div class="empty-state-icon">
+            <i class="fa-solid fa-address-book"></i>
+          </div>
+          <div class="text-center">
+            <p class="info">No contacts found</p>
+            <p>Click "Add Contact" to get started</p>
+          </div>
+        </div>
+      </section>
+      <section>
+        <div class="row">
+          <div class="col-12">
+            <div class="favorite-title favorite-title1">
+              <div class="star-icon star-icon1">
+                <i class="fa-solid fa-star"></i>
+              </div>
+              <div class="star-text">
+                <h2>Favorites</h2>
+                <p>Quick access</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="empty-state-fav">
+              <div id="favs" class="row g-2"></div>
+              <p id="favEmptyState">No favorites yet</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="favorite-title favorite-title2">
+              <div class="star-icon star-icon2">
+                <i class="fa-solid fa-heart-pulse"></i>
+              </div>
+              <div class="star-text">
+                <h2>Emergency</h2>
+                <p>Urgent contacts</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="empty-state-fav m-0">
+              <div id="emergRow" class="row g-2"></div>
+              <p id="emergEmptyState">No emergency contacts</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              Add New Contact
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body no-scrollbar">
+            <div class="shape-butt-contact">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <div>
+              <label class="filee" for="fileImage">
+                <i class="fa-solid fa-camera"></i>
+                <span>Change Photo</span>
+              </label>
+              <input type="file" id="fileImage" class="d-none" />
+            </div>
+            <div class="mb-3">
+              <label for="fName" class="col-form-label"
+                >Full Name <span class="astricc">*</span></label
+              >
+              <input
+                oninput="validation(this, 'msgName')"
+                type="text"
+                class="form-control"
+                id="fName"
+                placeholder="Enter full name"
+              />
+              <p
+                class="d-none text-danger mt-1"
+                style="font-size: 0.75rem"
+                id="msgName"
+              >
+                Name should contain only letters and spaces (2-50 characters)
+              </p>
+            </div>
+            <div class="mb-3">
+              <label for="phone" class="col-form-label"
+                >Phone Number <span class="astricc">*</span></label
+              >
+              <input
+                oninput="validation(this, 'msgPhone')"
+                type="number"
+                class="form-control"
+                id="phone"
+                placeholder="e.g., 01012345678"
+              />
+              <p
+                class="d-none text-danger mt-1"
+                style="font-size: 0.75rem"
+                id="msgPhone"
+              >
+                Please enter a valid Egyptian phone number
+              </p>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="col-form-label">Email Address</label>
+              <input
+                oninput="validation(this, 'msgEmail')"
+                type="email"
+                class="form-control"
+                id="email"
+                placeholder="name@example.com"
+              />
+              <p
+                class="d-none text-danger mt-1"
+                style="font-size: 0.75rem"
+                id="msgEmail"
+              >
+                Please enter a valid email address
+              </p>
+            </div>
+            <div class="mb-3">
+              <label for="address" class="col-form-label">Address</label>
+              <input
+                type="text"
+                class="form-control"
+                id="address"
+                placeholder="Enter address"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="group" class="col-form-label">Group</label>
+              <select name="group-type" id="group">
+                <option disabled selected hidden>Select a group</option>
+                <option value="Family">Family</option>
+                <option value="Friends">Friends</option>
+                <option value="Work">Work</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="notes" class="col-form-label">Notes</label>
+              <textarea
+                class="form-control"
+                id="notes"
+                placeholder="Add notes about this contact"
+              ></textarea>
+            </div>
+            <div class="check-box">
+              <div>
+                <input type="checkbox" id="favCheckBox" />
+                <label for="fav"
+                  ><i class="fa-solid fa-star"></i> Favorite</label
+                >
+              </div>
+              <div>
+                <input type="checkbox" id="emergCheckBox" />
+                <label for="emeg"
+                  ><i class="fa-solid fa-heart-pulse"></i> Emergency</label
+                >
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              class="cancel"
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button
+              id="addBtn"
+              class="save-contact btn btn-primary"
+              type="button"
+            >
+              <i class="fa-solid fa-check"></i> Save Contact
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/main.js"></script>
+  </body>
+</html>
